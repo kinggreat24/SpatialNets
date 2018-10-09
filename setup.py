@@ -4,11 +4,6 @@ from setuptools import setup, find_packages
 # install requirements
 inst_reqs = [
 'numpy',
-'pytorch',
-'opencv-python',
-'Pillow',
-'tifffile',
-'torchvision',
 ]
 
 setup(

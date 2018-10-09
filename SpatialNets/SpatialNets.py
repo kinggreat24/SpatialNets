@@ -6,7 +6,6 @@ from PIL import Image
 from os import listdir
 from os.path import join, split, splitext
 import os
-import scipy.io as scio
 import numpy as np
 from TEST_Patch import PatchTest
 import tifffile
