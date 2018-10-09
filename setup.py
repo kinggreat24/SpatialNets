@@ -8,7 +8,7 @@ inst_reqs = [
 
 setup(
     name = 'SpatialNets',
-    version = '0.1',
+    version = '0.2',
 
     packages = ['SpatialNets'],
     include_package_data = False,

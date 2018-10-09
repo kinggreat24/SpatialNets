@@ -7,8 +7,8 @@ from os import listdir
 from os.path import join, split, splitext
 import os
 import numpy as np
-from TEST_Patch import PatchTest
 import tifffile
+from torch.autograd import Variable
 
 # ===========================================================
 # Argument settings
@@ -33,6 +33,69 @@ def turn_label2rgb(arr):
     rgb_arr = np.concatenate([ b_arr, g_arr, r_arr], axis=2)
     rgb_arr = rgb_arr.astype(np.uint8)
     return rgb_arr
+
+
+def preprocessing(data1):
+    [r, w, b] = data1.shape
+    w_size = 29
+    data1_pad = np.pad(data1, ((14, 14), (14, 14), (0, 0)), 'symmetric')
+    PatchImage = np.zeros([w_size, w_size, b, r*w])
+    mark =0
+    for i in range(r):
+        for j in range(w):
+            PatchImage[:, :, :, mark] = data1_pad[i: i + w_size, j: j + w_size, :]
+            mark = mark + 1
+
+    return PatchImage
+
+def PatchTest(model, GPU_IN_USE, image_crop, crop_shape):
+
+    data1 = preprocessing(image_crop)
+
+
+
+    # ===========================================================
+    # model import & setting
+    # ===========================================================
+
+    if GPU_IN_USE:
+        model.cuda()
+        # model = torch.load(args.model)
+
+    num = data1.shape[3]
+
+    out1 = np.zeros((num, 9))
+    data1 = np.transpose(data1,axes=[3,1,2,0])
+    data1 = np.transpose(data1,axes=[0,3,2,1])
+    data1 = np.transpose(data1,axes=[0,2,1,3])
+    print (data1.shape)
+    num = 1
+    temp1 = data1[0,:,:,:]
+    print(temp1.shape)
+    if GPU_IN_USE:
+        # temp1 = Variable(ToTensor()(temp1)).view(1,-1,29,29)
+        temp1 = Variable(torch.tensor(data1)).cuda()
+    else :
+        temp1 = Variable(torch.tensor(data1))
+    print(temp1.shape)
+    out = model(temp1)
+    out = out.cpu()
+    print(out.shape)
+    print(out.data.numpy().shape)
+    out1 = out.data.numpy()
+
+ 
+    maxValue = np.max(out1, 1)
+    maxIndex = np.zeros([out1.shape[0]]).astype(np.int32)
+    for i in range(out1.shape[0]):
+        temp = np.where(out1[i] == maxValue[i])
+        temp = temp[0]
+        temp = temp[0]
+        maxIndex[i] = temp
+
+    cnnClass = maxIndex.reshape(crop_shape)
+
+    return cnnClass
 
 def is_image_file(filename):
     return any(filename.endswith(extension) for extension in [".png"])
