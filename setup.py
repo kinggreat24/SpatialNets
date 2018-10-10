@@ -7,10 +7,10 @@ inst_reqs = [
 ]
 
 setup(
-    name = 'SpatialNets',
-    version = '0.2',
+    name = 'SpatialNets_pavia',
+    version = '0.1',
 
-    packages = ['SpatialNets'],
+    packages = ['SpatialNets_pavia'],
     include_package_data = False,
     plantforms = 'any',
     install_requires=inst_reqs,
