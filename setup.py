@@ -14,5 +14,6 @@ setup(
     include_package_data = False,
     plantforms = 'any',
     install_requires=inst_reqs,
-    package_data = {'SpatialNets/model': ['*.pth'],}
+    package_data = {'SpatialNets/model': ['*.pth'],'SpatialNets_pavia':['*.py']},
+    scripts = ['SpatialNets_pavia/model.py']
 )

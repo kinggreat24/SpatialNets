@@ -109,18 +109,6 @@ def load_nor_img(filepath):
     nor_img = (img - min_img) / (max_img - min_img)
     return nor_img
 
-def preprocessing(data1):
-    [r, w, b] = data1.shape
-    w_size = 29
-    data1_pad = np.pad(data1, ((14, 14), (14, 14), (0, 0)), 'symmetric')
-    PatchImage = np.zeros([w_size, w_size, b, r*w])
-    mark =0
-    for i in range(r):
-        for j in range(w):
-            PatchImage[:, :, :, mark] = data1_pad[i: i + w_size, j: j + w_size, :]
-            mark = mark + 1
-
-    return PatchImage
 
 def thumbnail_size_keep_ratio(rows, cols, max_size = 1300):
     ratio = max(float(rows)/float(max_size), float(cols)/float(max_size))
