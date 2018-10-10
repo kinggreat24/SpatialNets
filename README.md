@@ -1,9 +1,9 @@
 # SpatialNets
 
 
-# step 1. python install build
+# step 1. python setup.py build
 # step 2. pip install -e .
-# step 3. python install install
+# step 3. python setup.py install
 
 # Example
 
