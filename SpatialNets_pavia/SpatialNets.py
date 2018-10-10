@@ -2,7 +2,6 @@
 from __future__ import print_function
 import argparse
 import torch
-from PIL import Image
 from os import listdir
 from os.path import join, split, splitext
 import os
